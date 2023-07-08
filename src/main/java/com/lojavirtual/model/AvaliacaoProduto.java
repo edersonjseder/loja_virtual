@@ -1,12 +1,10 @@
 package com.lojavirtual.model;
 
-import com.lojavirtual.enums.TipoEndereco;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 
@@ -15,31 +13,19 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "endereco")
-@SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1)
-public class Endereco implements Serializable {
+@Table(name = "avaliacao_produto")
+@SequenceGenerator(name = "seq_avaliacao_produto", sequenceName = "seq_avaliacao_produto", allocationSize = 1)
+public class AvaliacaoProduto implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_avaliacao_produto")
     private Long id;
     @Column(nullable = false)
-    private String uf;
+    private Integer nota;
     @Column(nullable = false)
-    private String estado;
-    @Column(nullable = false)
-    private String cidade;
-    @Column(nullable = false)
-    private String bairro;
-    private String complemento;
-    @Column(nullable = false)
-    private String numero;
-    @Column(nullable = false)
-    private String ruaLogradouro;
-    @Column(nullable = false)
-    private String cep;
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoEndereco tipoEndereco;
-
+    private String descricao;
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
+    private Produto produto;
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
@@ -49,10 +35,10 @@ public class Endereco implements Serializable {
         if (this == o) return true;
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
-        Endereco endereco = (Endereco) o;
+        AvaliacaoProduto avaliacaoProduto = (AvaliacaoProduto) o;
         if (id == null) {
-            return endereco.id == null;
-        } else return id.equals(endereco.id);
+            return avaliacaoProduto.id == null;
+        } else return id.equals(avaliacaoProduto.id);
     }
 
     @Override

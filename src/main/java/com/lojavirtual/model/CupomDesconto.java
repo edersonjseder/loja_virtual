@@ -6,33 +6,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "marca_produto")
-@SequenceGenerator(name = "seq_marca_produto", sequenceName = "seq_marca_produto", allocationSize = 1)
-public class MarcaProduto implements Serializable {
+@Table(name = "cupom_desconto")
+@SequenceGenerator(name = "seq_cupom_desconto", sequenceName = "seq_cupom_desconto", allocationSize = 1)
+public class CupomDesconto {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cupom_desconto")
     private Long id;
+    private BigDecimal valorPorcentagemDesconto;
+    private BigDecimal valorRealDesconto;
     @Column(nullable = false)
-    private String nome;
+    private String codigoDesconto;
     @Column(nullable = false)
-    private String descricao;
+    @Temporal(TemporalType.DATE)
+    private Date dataValidadeCupom;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
-        MarcaProduto marcaProduto = (MarcaProduto) o;
+        CupomDesconto cupomDesconto = (CupomDesconto) o;
         if (id == null) {
-            return marcaProduto.id == null;
-        } else return id.equals(marcaProduto.id);
+            return cupomDesconto.id == null;
+        } else return id.equals(cupomDesconto.id);
     }
 
     @Override

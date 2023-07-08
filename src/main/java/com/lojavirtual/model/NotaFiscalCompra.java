@@ -1,58 +1,58 @@
 package com.lojavirtual.model;
 
-import com.lojavirtual.enums.TipoEndereco;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "endereco")
-@SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1)
-public class Endereco implements Serializable {
+@Table(name = "nota_fiscal_compra")
+@SequenceGenerator(name = "seq_nota_fiscal_compra", sequenceName = "seq_nota_fiscal_compra", allocationSize = 1)
+public class NotaFiscalCompra implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
     private Long id;
     @Column(nullable = false)
-    private String uf;
+    private BigDecimal valorIcms;
+    private BigDecimal valorDesconto;
     @Column(nullable = false)
-    private String estado;
+    private BigDecimal valorTotal;
+    private String descricaoObs;
     @Column(nullable = false)
-    private String cidade;
+    private String serieNota;
     @Column(nullable = false)
-    private String bairro;
-    private String complemento;
+    private String numeroNota;
     @Column(nullable = false)
-    private String numero;
-    @Column(nullable = false)
-    private String ruaLogradouro;
-    @Column(nullable = false)
-    private String cep;
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoEndereco tipoEndereco;
+    @Temporal(TemporalType.DATE)
+    private Date dataCompra;
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "conta_pagar_id", referencedColumnName = "id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
+    private ContaPagar contaPagar;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
-        Endereco endereco = (Endereco) o;
+        NotaFiscalCompra notaFiscalCompra = (NotaFiscalCompra) o;
         if (id == null) {
-            return endereco.id == null;
-        } else return id.equals(endereco.id);
+            return notaFiscalCompra.id == null;
+        } else return id.equals(notaFiscalCompra.id);
     }
 
     @Override

@@ -13,14 +13,12 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "marca_produto")
-@SequenceGenerator(name = "seq_marca_produto", sequenceName = "seq_marca_produto", allocationSize = 1)
-public class MarcaProduto implements Serializable {
+@Table(name = "forma_pagamento")
+@SequenceGenerator(name = "seq_forma_pagamento", sequenceName = "seq_forma_pagamento", allocationSize = 1)
+public class FormaPagamento implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_forma_pagamento")
     private Long id;
-    @Column(nullable = false)
-    private String nome;
     @Column(nullable = false)
     private String descricao;
 
@@ -29,10 +27,10 @@ public class MarcaProduto implements Serializable {
         if (this == o) return true;
         if (o == null) return false;
         if (getClass() != o.getClass()) return false;
-        MarcaProduto marcaProduto = (MarcaProduto) o;
+        FormaPagamento formaPagamento = (FormaPagamento) o;
         if (id == null) {
-            return marcaProduto.id == null;
-        } else return id.equals(marcaProduto.id);
+            return formaPagamento.id == null;
+        } else return id.equals(formaPagamento.id);
     }
 
     @Override
