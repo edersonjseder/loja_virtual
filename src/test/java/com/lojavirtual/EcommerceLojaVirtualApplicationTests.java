@@ -1,8 +1,8 @@
 package com.lojavirtual;
 
+import com.lojavirtual.controller.AcessoController;
 import com.lojavirtual.model.Acesso;
-import com.lojavirtual.repository.AcessoRepository;
-import com.lojavirtual.service.AcessoService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,13 +11,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 class EcommerceLojaVirtualApplicationTests {
 
 	@Autowired
-	private AcessoService acessoService;
+	private AcessoController acessoController;
 
 	@Test
-	public void testCadastraAcesso() {
+	public void cadastraAcessoTest() {
 		Acesso acesso = new Acesso();
 		acesso.setDescricao("ROLE_BASIC");
-		acessoService.salvarAcesso(acesso);
+		Assertions.assertNull(acesso.getId());
+		acesso = acessoController.salvarAcesso(acesso).getBody();
+		Assertions.assertTrue(acesso.getId() > 0);
+	}
+
+	@Test
+	public void carregarAcessoTest() {
+		var acessos = acessoController.carregarAcessos();
+		Assertions.assertNotNull(acessos);
+		Assertions.assertEquals(4, acessos.getBody().size());
 	}
 
 }
