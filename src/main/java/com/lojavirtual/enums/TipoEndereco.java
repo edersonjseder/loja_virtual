@@ -7,9 +7,10 @@ import lombok.ToString;
 @ToString
 public enum TipoEndereco {
     COBRANCA("Cobrança"),
-    ENTREGA("Entrega");
+    ENTREGA("Entrega"),
+    COBRANCA_ENTREGA("Cobranca_Entrega");
 
-    private String descricao;
+    private final String descricao;
 
     TipoEndereco(String descricao) {
         this.descricao = descricao;

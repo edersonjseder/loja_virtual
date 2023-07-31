@@ -1,16 +1,20 @@
 package com.lojavirtual.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
-
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", allocationSize = 1)
 public abstract class Pessoa implements Serializable {
@@ -23,6 +27,8 @@ public abstract class Pessoa implements Serializable {
     private String email;
     @Column(nullable = false)
     private String telefone;
+    @Column
+    private String tipoPessoa;
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos;
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

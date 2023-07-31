@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.lojavirtual.model")
-@ComponentScan(basePackages = {"com.lojavirtual.*"})
-@EnableJpaRepositories(basePackages = {"com.lojavirtual.repository"})
 @EnableTransactionManagement
 public class EcommerceLojaVirtualApplication {
 

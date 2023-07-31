@@ -1,11 +1,9 @@
 package com.lojavirtual.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lojavirtual.enums.TipoEndereco;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
@@ -13,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "endereco")
@@ -39,9 +38,9 @@ public class Endereco implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
-
+    @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
     @Override

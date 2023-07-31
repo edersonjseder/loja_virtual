@@ -1,11 +1,11 @@
 package com.lojavirtual.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "acesso")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", allocationSize = 1)
 public class Acesso implements GrantedAuthority {
     @Id
@@ -21,6 +22,7 @@ public class Acesso implements GrantedAuthority {
     private Long id;
     @Column(nullable = false)
     private String descricao;
+    @JsonIgnoreProperties
     @Override
     public String getAuthority() {
         return this.descricao;
