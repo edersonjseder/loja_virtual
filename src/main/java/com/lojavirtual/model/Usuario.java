@@ -22,17 +22,19 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
     @Column(nullable = false)
     private String senha;
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataAtualSenha;
-
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
+    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usuarios_acesso",

@@ -1,7 +1,6 @@
 package com.lojavirtual.model;
 
 import com.lojavirtual.enums.StatusContaPagar;
-import com.lojavirtual.enums.StatusContaReceber;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +41,10 @@ public class ContaPagar implements Serializable {
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_fornecedor_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fornecedor_fk"))
     private Pessoa pessoaFornecedor;
+
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
     @OneToOne(mappedBy = "contaPagar")
     private NotaFiscalCompra notaFiscalCompra;
 

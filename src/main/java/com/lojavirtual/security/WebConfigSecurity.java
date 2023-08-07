@@ -31,11 +31,12 @@ public class WebConfigSecurity implements HttpSessionListener {
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     public static final String[] ENDPOINTS_WHITELIST = {
             "/signup",
-            "/signin"
-    };
-    public static final String[] ALLOWED_ORIGINS = {
-            "http://localhost:4200",
-            "http://localhost:5000"
+            "/signin",
+            "/cadastrarPessoaFisica",
+            "/cadastrarPessoaJuridica",
+            "/buscarPessoaFisicaPorNome/**",
+            "/cadastrarCategoriaProduto",
+            "/buscarCategoriasProdutos"
     };
 
     @Bean

@@ -4,8 +4,8 @@ import com.lojavirtual.dto.PessoaFisicaDTO;
 import com.lojavirtual.dto.PessoaJuridicaDTO;
 import com.lojavirtual.enums.TipoEndereco;
 import com.lojavirtual.model.Endereco;
+import com.lojavirtual.model.PessoaJuridica;
 import com.lojavirtual.security.request.SignUpRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +14,19 @@ import java.util.Date;
 
 public class GeneratePojoClass {
     public static PessoaFisicaDTO genPessoaFisica() {
+        var pesJur = PessoaJuridicaDTO.builder()
+                .cnpj("30.388.123/0001-02")
+                .inscricaoEstadual("8520.4563.1203")
+                .categoria("Eletronicos")
+                .inscricaoMunicipal("99632.00214")
+                .nomeFantasia("Jacinda Manoel Eletronicos")
+                .razaoSocial("JaMa Eletronicos")
+                .email("jama@gmail.com")
+                .tipoPessoa("PJ")
+                .nome("Jacinda Manoel")
+                .telefone("92996874520")
+                .build();
+
         var pessoaFisica = PessoaFisicaDTO.builder()
                 .cpf("133.494.840-26")
                 .dataNascimento(parseDate())
@@ -21,6 +34,7 @@ public class GeneratePojoClass {
                 .email("joaoaguirre@gmail.com")
                 .telefone("92985207670")
                 .tipoPessoa("PF")
+                .empresa(pesJur)
                 .build();
 
         var enderecoEnt = Endereco.builder()
@@ -57,6 +71,19 @@ public class GeneratePojoClass {
     }
 
     public static PessoaJuridicaDTO genPessoaJuridica() {
+        var pesJur = PessoaJuridica.builder()
+                .cnpj("17.882.887/0001-91")
+                .inscricaoEstadual("8520.3325.9996")
+                .categoria("Eletronicos")
+                .inscricaoMunicipal("22301.45698")
+                .nomeFantasia("Ed.son")
+                .razaoSocial("Ed.Son Eletronicos")
+                .email("eds@gmail.com")
+                .tipoPessoa("PJ")
+                .nome("Eder Sonny")
+                .telefone("92996874520")
+                .build();
+
         var pessoaJuridicaDTO = PessoaJuridicaDTO.builder()
                 .cnpj("60.736.280/0001-22")
                 .inscricaoEstadual("7485.3210.3654")
@@ -68,6 +95,7 @@ public class GeneratePojoClass {
                 .tipoPessoa("PJ")
                 .nome("Tadeu Macedo")
                 .telefone("92996874520")
+                .empresa(pesJur)
                 .build();
 
         var enderecoCobEnt = Endereco.builder()

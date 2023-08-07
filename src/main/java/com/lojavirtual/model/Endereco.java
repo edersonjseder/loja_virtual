@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lojavirtual.enums.TipoEndereco;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 
@@ -38,10 +37,16 @@ public class Endereco implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
+
     @JsonIgnore
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
+
+    @JsonIgnore
+    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     @Override
     public boolean equals(Object o) {

@@ -8,10 +8,14 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableAsync
+@EnableScheduling
 @EntityScan(basePackages = "com.lojavirtual.model")
 @ComponentScan(basePackages = {"com.lojavirtual.*"})
 @EnableJpaRepositories(basePackages = {"com.lojavirtual.repository"})

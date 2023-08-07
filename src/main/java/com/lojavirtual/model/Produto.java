@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Getter
@@ -45,6 +44,10 @@ public class Produto implements Serializable {
     private String tipoUnidade;
     @Column(nullable = false)
     private Boolean ativo = Boolean.TRUE;
+
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     @Override
     public boolean equals(Object o) {

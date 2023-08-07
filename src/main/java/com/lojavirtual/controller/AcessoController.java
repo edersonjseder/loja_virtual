@@ -5,7 +5,6 @@ import com.lojavirtual.service.AcessoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class AcessoController {
     @PostMapping(value = "/salvarAcesso")
     public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
         var acessoSalvo =  acessoService.salvarAcesso(acesso);
-        return new ResponseEntity<>(acessoSalvo, HttpStatus.OK);
+        return new ResponseEntity<>(acessoSalvo, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/removerAcesso")

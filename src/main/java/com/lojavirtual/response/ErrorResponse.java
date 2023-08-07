@@ -9,7 +9,6 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ErrorResponse {
@@ -18,7 +17,7 @@ public class ErrorResponse {
     private int code;
     private HttpStatus status;
     private String message;
-    private String errors;
+    private String error;
 
     public ErrorResponse() {
         this.timestamp = LocalDateTime.now();
@@ -31,14 +30,9 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public ErrorResponse(String message) {
-        this();
-        this.message = message;
-    }
-
     public ErrorResponse(HttpStatus httpStatus, String message, String error) {
         this(httpStatus, message);
-        this.errors = error;
+        this.error = error;
     }
 
     public String convertToJson() throws JsonProcessingException {

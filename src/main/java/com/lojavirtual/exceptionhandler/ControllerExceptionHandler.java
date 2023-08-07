@@ -4,17 +4,22 @@ import com.lojavirtual.exception.AcessoNaoEncontradoException;
 import com.lojavirtual.exception.PessoaException;
 import com.lojavirtual.exception.UsuarioNaoEncontradoException;
 import com.lojavirtual.response.ErrorResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -30,8 +35,26 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, "Metodo nao suportado", ex.getMessage());
+        return buildResponseEntityReturnsObject(errorResponse);
+    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
+        var message = e.getConstraintViolations().stream().map(error -> error.getMessageTemplate() + " ").collect(Collectors.joining(" "));
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, message, e.getLocalizedMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(METHOD_NOT_ALLOWED, "Metodo nao suportado", ex.getMessage());
+        return buildResponseEntityReturnsObject(errorResponse);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, "Nao esta sendo enviado dados para o Body da requisicao", ex.getMessage());
         return buildResponseEntityReturnsObject(errorResponse);
     }
 
@@ -62,13 +85,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
-        ;
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
-        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, e.getMessage());
         return buildResponseEntity(errorResponse);
     }
 

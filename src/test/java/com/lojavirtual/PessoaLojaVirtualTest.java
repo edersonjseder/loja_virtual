@@ -2,28 +2,22 @@ package com.lojavirtual;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lojavirtual.controller.PessoaController;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.lojavirtual.dto.PessoaResponseDto;
 import com.lojavirtual.exception.PessoaException;
-import com.lojavirtual.exceptionhandler.ControllerExceptionHandler;
-import com.lojavirtual.model.Pessoa;
 import com.lojavirtual.model.PessoaFisica;
 import com.lojavirtual.model.PessoaJuridica;
 import com.lojavirtual.utils.ValidaCNPJ;
 import com.lojavirtual.utils.ValidaCPF;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -41,9 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PessoaLojaVirtualTest {
 
     @Autowired
-    private PessoaController pessoaController;
-
-    @Autowired
     private WebApplicationContext context;
 
     @Autowired
@@ -59,6 +50,7 @@ public class PessoaLojaVirtualTest {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
         var resultApi = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
                         .content(mapper.writeValueAsString(genPessoaFisica()))
@@ -66,13 +58,11 @@ public class PessoaLojaVirtualTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
 
-        var pessoaFisica = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaFisica.class);
+        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
 
-        assertTrue(pessoaFisica.getId() > 0);
+        assertNotNull(pessoaResponseDto.getToken());
 
-        pessoaFisica.getEnderecos().forEach(endereco -> assertTrue(endereco.getId() > 0));
-
-        assertEquals(2, pessoaFisica.getEnderecos().size());
+        assertEquals("joaoaguirre@gmail.com", pessoaResponseDto.getEmail());
 
     }
 
@@ -88,13 +78,11 @@ public class PessoaLojaVirtualTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
-        var pessoaJuridica = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaJuridica.class);
+        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
 
-        assertTrue(pessoaJuridica.getId() > 0);
+        assertNotNull(pessoaResponseDto.getToken());
 
-        pessoaJuridica.getEnderecos().forEach(endereco -> assertTrue(endereco.getId() > 0));
-
-        assertEquals(1, pessoaJuridica.getEnderecos().size());
+        assertEquals("tama@gmail.com", pessoaResponseDto.getEmail());
 
     }
 

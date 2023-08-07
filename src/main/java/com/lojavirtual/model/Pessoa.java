@@ -1,7 +1,11 @@
 package com.lojavirtual.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,26 +19,42 @@ import java.util.List;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", allocationSize = 1)
 public abstract class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
     private Long id;
+
+    @Size(min = 4, message = "O nome deve ter no minimo 4 letras")
+    @NotBlank(message = "Nome deve ser informado")
+    @NotNull(message = "Nome deve ser informado")
     @Column(nullable = false)
     private String nome;
+
+    @Email
     @Column(nullable = false)
     private String email;
+
     @Column(nullable = false)
     private String telefone;
+
     @Column
     private String tipoPessoa;
+
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos;
+
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ContaReceber> contaReceberList;
+
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<NotaFiscalCompra> notaFiscalCompras;
+
+    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     @Override
     public boolean equals(Object o) {

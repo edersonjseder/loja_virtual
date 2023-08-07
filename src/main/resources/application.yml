@@ -8,6 +8,12 @@ server:
       enabled: true
     session:
       timeout: 240m # Definicao de sessao de login onde o usuario tem um tempo determinado para estar logado
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true
+      force-response: true
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript/application/javascript,application/json
@@ -25,13 +31,13 @@ spring:
     enabled: true
     baseline-on-migrate: true
     locations: classpath:/db/migration
-    check-location: true
     table: flyway_schema_history
     baseline-version: 2
     sql-migration-prefix: V
     sql-migration-separator: __
     sql-migration-suffixes: .sql
     mixed: true
+    fail-on-missing-locations: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -57,13 +63,6 @@ spring:
           batch-size: 4
         order_inserts: true
         order_updates: true
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-      force-request: true
-      force-response: true
   transaction:
     rollback-on-commit-failure: true
   session:
