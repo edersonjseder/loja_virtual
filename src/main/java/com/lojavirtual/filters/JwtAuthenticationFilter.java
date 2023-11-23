@@ -1,7 +1,7 @@
 package com.lojavirtual.filters;
 
 import com.lojavirtual.response.ErrorResponse;
-import com.lojavirtual.service.JwtService;
+import com.lojavirtual.security.JwtService;
 import com.lojavirtual.service.UserDetailServiceImpl;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     /* Since the exception is not raised from a controller but a filter,
-    @ControllerAdvice won't catch it.  So this method will handle this internal error */
+    @ControllerAdvice won't catch it. So this method will handle this internal error */
     private void setErrorResponse(HttpStatus status, HttpServletResponse response, String message, Throwable ex) {
         // A class used for errors
         var apiError = new ErrorResponse(status, message, ex.getLocalizedMessage());

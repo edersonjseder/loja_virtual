@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoriaProdutoDto {
+public class MarcaProdutoDto {
     private Long id;
-    @NotBlank(message = "Nome da categoria deve ser informado")
+    @NotBlank(message = "Nome da marca deve ser informado")
     private String nome;
     private String descricao;
     private PessoaJuridicaDTO empresa;

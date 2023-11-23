@@ -1,0 +1,1 @@
+ALTER TABLE public.produto DROP COLUMN marca;

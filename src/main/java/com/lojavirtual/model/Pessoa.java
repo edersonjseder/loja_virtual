@@ -2,8 +2,6 @@ package com.lojavirtual.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +26,6 @@ public abstract class Pessoa implements Serializable {
     private Long id;
 
     @Size(min = 4, message = "O nome deve ter no minimo 4 letras")
-    @NotBlank(message = "Nome deve ser informado")
-    @NotNull(message = "Nome deve ser informado")
     @Column(nullable = false)
     private String nome;
 

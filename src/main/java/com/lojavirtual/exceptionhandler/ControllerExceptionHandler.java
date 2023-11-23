@@ -1,15 +1,18 @@
 package com.lojavirtual.exceptionhandler;
 
-import com.lojavirtual.exception.AcessoNaoEncontradoException;
-import com.lojavirtual.exception.PessoaException;
-import com.lojavirtual.exception.UsuarioNaoEncontradoException;
+import com.lojavirtual.exception.*;
 import com.lojavirtual.response.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
@@ -36,7 +40,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, "Metodo nao suportado", ex.getMessage());
+        List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+        var message = errors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, "Metodo nao suportado", message);
         return buildResponseEntityReturnsObject(errorResponse);
     }
     @ExceptionHandler(ConstraintViolationException.class)
@@ -60,13 +66,43 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
-        ErrorResponse errorResponse = new ErrorResponse(UNAUTHORIZED, "Usuario ou senha invalidos", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(FORBIDDEN, "Usuario ou senha invalidos", e.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+        ErrorResponse errorResponse = new ErrorResponse(FORBIDDEN, "You need to be authenticated", e.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        ErrorResponse errorResponse = new ErrorResponse(UNAUTHORIZED, "You don't have permission", e.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(UNAUTHORIZED, "Invalid", e.getMessage());
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(AcessoNaoEncontradoException.class)
     protected ResponseEntity<ErrorResponse> handleAcessoNaoEncontradoException(AcessoNaoEncontradoException ex) {
         ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(CategoriaProdutoException.class)
+    protected ResponseEntity<ErrorResponse> handleCategoriaProdutoException(CategoriaProdutoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(MarcaProdutoException.class)
+    protected ResponseEntity<ErrorResponse> handleMarcaProdutoException(MarcaProdutoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST, ex.getMessage());
         return buildResponseEntity(errorResponse);
     }
 
@@ -78,6 +114,24 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UsuarioNaoEncontradoException.class)
     protected ResponseEntity<ErrorResponse> handleUsuarioNaoEncontradoException(UsuarioNaoEncontradoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(ProdutoNaoEncontradoException.class)
+    protected ResponseEntity<ErrorResponse> handleProdutoNaoEncontradoException(ProdutoNaoEncontradoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(CategoriaProdutoNaoEncontradoException.class)
+    protected ResponseEntity<ErrorResponse> handleCategoriaProdutoNaoEncontradoException(CategoriaProdutoNaoEncontradoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(MarcaProdutoNaoEncontradoException.class)
+    protected ResponseEntity<ErrorResponse> handleMarcaProdutoNaoEncontradoException(MarcaProdutoNaoEncontradoException ex) {
         ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
         return buildResponseEntity(errorResponse);
     }

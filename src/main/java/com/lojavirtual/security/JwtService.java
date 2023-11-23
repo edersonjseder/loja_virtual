@@ -1,4 +1,4 @@
-package com.lojavirtual.service;
+package com.lojavirtual.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

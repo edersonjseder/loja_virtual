@@ -1,6 +1,7 @@
 package com.lojavirtual.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,8 +10,10 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
@@ -18,6 +21,7 @@ public class ErrorResponse {
     private HttpStatus status;
     private String message;
     private String error;
+    private List<String> errors;
 
     public ErrorResponse() {
         this.timestamp = LocalDateTime.now();
@@ -33,6 +37,11 @@ public class ErrorResponse {
     public ErrorResponse(HttpStatus httpStatus, String message, String error) {
         this(httpStatus, message);
         this.error = error;
+    }
+
+    public ErrorResponse(HttpStatus httpStatus, String message, List<String> errors) {
+        this(httpStatus, message);
+        this.errors = errors;
     }
 
     public String convertToJson() throws JsonProcessingException {

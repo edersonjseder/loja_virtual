@@ -62,6 +62,13 @@ public class PessoaController {
     }
 
     @ResponseBody
+    @PutMapping(value = "/atualizarPessoaFisica")
+    public ResponseEntity<PessoaResponseDto> atualizarPessoaFisica(@RequestBody @Valid PessoaFisicaDTO pessoaFisicaDTO) {
+        var pessoaFisicaAtualizada = pessoaUserService.guardarPessoaFisica(pessoaFisicaDTO);
+        return new ResponseEntity<>(pessoaFisicaAtualizada, HttpStatus.OK);
+    }
+
+    @ResponseBody
     @GetMapping(value = "/buscarPessoaJuridicaPorNome/{nome}")
     public ResponseEntity<List<PessoaJuridicaDTO>> consultarPessoaJuridicaPorNome(@PathVariable("nome") String nome) {
         var pessoaJuridicaList = pessoaUserService.buscarPessoaJuridicaPorNome(nome);
@@ -90,5 +97,12 @@ public class PessoaController {
         response.addCookie(jwtTokenCookie);
 
         return new ResponseEntity<>(pessoaJuridicaRegistrada, HttpStatus.CREATED);
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/atualizarPessoaJuridica")
+    public ResponseEntity<PessoaResponseDto> atualizarPessoaJuridica(@RequestBody @Valid PessoaJuridicaDTO pessoaJuridicaDTO) {
+        var pessoaJuridicaAtualizada = pessoaUserService.guardarPessoaJuridica(pessoaJuridicaDTO);
+        return new ResponseEntity<>(pessoaJuridicaAtualizada, HttpStatus.OK);
     }
 }

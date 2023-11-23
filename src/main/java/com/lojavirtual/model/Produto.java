@@ -1,10 +1,9 @@
 package com.lojavirtual.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +11,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "produto")
@@ -20,34 +20,57 @@ public class Produto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
     private Long id;
+
     @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false, unique = true)
+    private String modelo;
+
     private String linkYoutube;
     private Integer qtdeClique = 0;
+
     @Column(nullable = false)
     private BigDecimal valorVenda = BigDecimal.ZERO;
+
     @Column(nullable = false)
     private Double peso;
+
     @Column(nullable = false)
     private Double largura;
+
     @Column(nullable = false)
     private Double altura;
+
     @Column(nullable = false)
     private Double profundidade;
+
     private Boolean alertaQtdeEstoque = Boolean.FALSE;
     private Integer qtdeAlerta = 0;
+
     @Column(nullable = false)
     private Integer qtdeEstoque = 0;
+
     @Column(columnDefinition = "text", length = 2000, nullable = false)
     private String descricao;
+
     @Column(nullable = false)
     private String tipoUnidade;
+
     @Column(nullable = false)
-    private Boolean ativo = Boolean.TRUE;
+    private Boolean ativo;
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
+
+    @ManyToOne(targetEntity = CategoriaProduto.class)
+    @JoinColumn(name = "categoria_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "categoria_produto_fk"))
+    private CategoriaProduto categoriaProduto;
+
+    @ManyToOne(targetEntity = MarcaProduto.class)
+    @JoinColumn(name = "marca_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_fk"))
+    private MarcaProduto marcaProduto;
 
     @Override
     public boolean equals(Object o) {

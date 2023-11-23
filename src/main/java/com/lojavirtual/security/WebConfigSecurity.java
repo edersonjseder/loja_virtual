@@ -33,10 +33,7 @@ public class WebConfigSecurity implements HttpSessionListener {
             "/signup",
             "/signin",
             "/cadastrarPessoaFisica",
-            "/cadastrarPessoaJuridica",
-            "/buscarPessoaFisicaPorNome/**",
-            "/cadastrarCategoriaProduto",
-            "/buscarCategoriasProdutos"
+            "/cadastrarPessoaJuridica"
     };
 
     @Bean
@@ -48,7 +45,6 @@ public class WebConfigSecurity implements HttpSessionListener {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(request ->
                          request.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling((exception) ->

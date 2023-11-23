@@ -87,7 +87,7 @@ public class PessoaUserService {
 
         storedPessoaFisica.setEnderecos(pessoaFisicaDTO.getEnderecos());
 
-        var token = usuarioService.registrarUsuario(storedPessoaFisica);
+        var token = (pessoaFisicaDTO.getId() == null ? usuarioService.registrarUsuario(storedPessoaFisica) : null);
 
         return pessoaUtils.toPessoaResponseDto(storedPessoaFisica, token);
     }
@@ -160,7 +160,7 @@ public class PessoaUserService {
 
         storedPessoaJuridica.setEnderecos(pessoaJuridicaDTO.getEnderecos());
 
-        var token = usuarioService.registrarUsuario(storedPessoaJuridica);
+        var token = (pessoaJuridicaDTO.getId() == null ? usuarioService.registrarUsuario(storedPessoaJuridica) : null);
 
         return pessoaUtils.toPessoaResponseDto(storedPessoaJuridica, token);
     }

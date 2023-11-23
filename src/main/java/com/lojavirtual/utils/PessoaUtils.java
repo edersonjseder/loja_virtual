@@ -112,20 +112,20 @@ public class PessoaUtils {
                     .cpfCnpj(((PessoaFisica)pessoa).getCpf())
                     .nome(pessoa.getNome())
                     .email(pessoa.getEmail())
-                    .username(tokenResponse.getUsername())
-                    .dataAtualSenha(tokenResponse.getDataAtualSenha())
+                    .username(tokenResponse != null ? tokenResponse.getUsername() : "")
+                    .dataAtualSenha(tokenResponse != null ? tokenResponse.getDataAtualSenha() : "")
                     .tipoPessoa(pessoa.getTipoPessoa())
-                    .token(tokenResponse.getAuthorization())
+                    .token(tokenResponse != null ? tokenResponse.getAuthorization() : "")
                     .build();
         } else {
             return PessoaResponseDto.builder()
                     .cpfCnpj(((PessoaJuridica)pessoa).getCnpj())
                     .nome(pessoa.getNome())
                     .email(pessoa.getEmail())
-                    .username(tokenResponse.getUsername())
-                    .dataAtualSenha(tokenResponse.getDataAtualSenha())
+                    .username(tokenResponse != null ? tokenResponse.getUsername() : "")
+                    .dataAtualSenha(tokenResponse != null ? tokenResponse.getDataAtualSenha() : "")
                     .tipoPessoa(pessoa.getTipoPessoa())
-                    .token(tokenResponse.getAuthorization())
+                    .token(tokenResponse != null ? tokenResponse.getAuthorization() : "")
                     .build();
         }
     }

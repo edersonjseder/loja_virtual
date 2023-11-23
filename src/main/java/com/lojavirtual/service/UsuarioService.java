@@ -12,6 +12,7 @@ import com.lojavirtual.repository.PessoaRepository;
 import com.lojavirtual.repository.UsuarioRepository;
 import com.lojavirtual.response.TokenResponse;
 import com.lojavirtual.response.UserTokenResponse;
+import com.lojavirtual.security.JwtService;
 import com.lojavirtual.security.request.SignInRequest;
 import com.lojavirtual.security.request.SignUpRequest;
 import com.lojavirtual.utils.DateUtils;

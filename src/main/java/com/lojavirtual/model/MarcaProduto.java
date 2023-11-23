@@ -1,16 +1,14 @@
 package com.lojavirtual.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "marca_produto")
@@ -21,7 +19,6 @@ public class MarcaProduto implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
     private String descricao;
 
     @ManyToOne(targetEntity = Pessoa.class)

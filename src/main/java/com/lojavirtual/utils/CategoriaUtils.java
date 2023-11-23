@@ -27,7 +27,6 @@ public class CategoriaUtils {
                 .id(categoriaProduto.getId())
                 .nome(categoriaProduto.getNome())
                 .descricao(categoriaProduto.getDescricao())
-                .empresa(pessoaUtils.toPessoaJuridicaDto((PessoaJuridica) categoriaProduto.getEmpresa()))
                 .build();
     }
 
@@ -36,7 +35,6 @@ public class CategoriaUtils {
                 .id(categoriaProduto.getId())
                 .nome(categoriaProduto.getNome())
                 .descricao(categoriaProduto.getDescricao())
-                .empresa(pessoaUtils.toPessoaJuridicaDto((PessoaJuridica) categoriaProduto.getEmpresa()))
                 .build()).collect(Collectors.toList());
     }
 }
