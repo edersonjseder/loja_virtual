@@ -87,6 +87,5 @@ token:
     client-secret: lojaVirtualSecret
   signing:
     key: Criandofrasesdeefeitoparaogerenciamentodalojavirtualafimdeterumecommercelucrativoecompetitivonomercadodetecnologia
-  # 10 Dias
   expiration:
-    time: 864000000
+    time: 864000000 # 10 Dias
