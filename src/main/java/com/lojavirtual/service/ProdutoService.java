@@ -14,6 +14,9 @@ import com.lojavirtual.utils.PessoaUtils;
 import com.lojavirtual.utils.ProdutoUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +31,8 @@ public class ProdutoService {
     private final ProdutoUtils produtoUtils;
     private final PessoaUtils pessoaUtils;
 
-    public List<ProdutoDto> buscarListaProdutos() {
-        return produtoUtils.toProdutoDtoList(produtoRepository.findAll());
+    public Page<ProdutoDto> buscarListaProdutos(Specification<Produto> spec, Pageable pageable) {
+        return produtoUtils.toProdutoDtoPage(produtoRepository.findAll(spec, pageable));
     }
 
     public List<ProdutoDto> buscarProdutosPorDescricao(String descricao) {

@@ -2,10 +2,7 @@ package com.lojavirtual.model;
 
 import com.lojavirtual.enums.StatusContaPagar;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,6 +11,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "conta_pagar")
@@ -35,16 +33,18 @@ public class ContaPagar implements Serializable {
     @Enumerated(EnumType.STRING)
     private StatusContaPagar statusContaPagar;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaFisica.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-    private Pessoa pessoa;
-    @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_fornecedor_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fornecedor_fk"))
-    private Pessoa pessoaFornecedor;
+    private PessoaFisica pessoa;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @JoinColumn(name = "pessoa_fornecedor_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fornecedor_fk"))
+    private PessoaJuridica pessoaFornecedor;
+
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
+
     @OneToOne(mappedBy = "contaPagar")
     private NotaFiscalCompra notaFiscalCompra;
 

@@ -3,6 +3,7 @@ package com.lojavirtual.utils;
 import com.lojavirtual.dto.ProdutoDto;
 import com.lojavirtual.model.Produto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -70,5 +71,24 @@ public class ProdutoUtils {
                 .marcaProduto(marcaUtils.toMarcaProdutoDto(produto.getMarcaProduto()))
                 .categoriaProduto(categoriaUtils.toCategoriaProdutoDto(produto.getCategoriaProduto()))
                 .build()).collect(Collectors.toList());
+    }
+
+    public Page<ProdutoDto> toProdutoDtoPage(Page<Produto> produtos) {
+        return produtos.map(produto -> ProdutoDto.builder()
+                .id(produto.getId())
+                .nome(produto.getNome())
+                .descricao(produto.getDescricao())
+                .altura(produto.getAltura())
+                .largura(produto.getLargura())
+                .peso(produto.getPeso())
+                .profundidade(produto.getProfundidade())
+                .tipoUnidade(produto.getTipoUnidade())
+                .modelo(produto.getModelo())
+                .qtdeEstoque(produto.getQtdeEstoque())
+                .valorVenda(produto.getValorVenda())
+                .empresa(pessoaUtils.toPessoaJuridicaDto(produto.getEmpresa()))
+                .marcaProduto(marcaUtils.toMarcaProdutoDto(produto.getMarcaProduto()))
+                .categoriaProduto(categoriaUtils.toCategoriaProdutoDto(produto.getCategoriaProduto()))
+                .build());
     }
 }

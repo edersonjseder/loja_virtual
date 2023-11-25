@@ -3,8 +3,13 @@ package com.lojavirtual.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.lojavirtual.dto.ProdutoDto;
 import com.lojavirtual.service.ProdutoService;
+import com.lojavirtual.specifications.ProdutoSpec;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +24,8 @@ public class ProdutoController {
 
     @ResponseBody
     @GetMapping(value = "/buscarProdutos")
-    public ResponseEntity<List<ProdutoDto>> buscarCategoriasProdutosLista() {
-        var produtos = produtoService.buscarListaProdutos();
+    public ResponseEntity<Page<ProdutoDto>> buscarCategoriasProdutosLista(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, ProdutoSpec spec) {
+        var produtos = produtoService.buscarListaProdutos(spec, pageable);
         return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
 

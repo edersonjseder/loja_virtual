@@ -136,6 +136,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
+    @ExceptionHandler(ContaPagarNaoEncontradaException.class)
+    protected ResponseEntity<ErrorResponse> handleContaPagarNaoEncontradaException(ContaPagarNaoEncontradaException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(NOT_FOUND, ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
