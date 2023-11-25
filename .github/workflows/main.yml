@@ -1,4 +1,4 @@
-name: Build and deploy Loja Virtual
+name: Build and deploy Ecommerce Loja Virtual
 on:
   push:
     branches:
