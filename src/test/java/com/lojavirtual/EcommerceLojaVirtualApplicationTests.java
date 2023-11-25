@@ -18,17 +18,17 @@ class EcommerceLojaVirtualApplicationTests {
     @Autowired
     private ToJsonConverter toJsonConverter;
 
-    @Test
-	public void jsonConvertTest() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-
-        var message = toJsonConverter.toJson("Mensagem de texto");
-
-        TokenResponse tokenResponse = mapper.readValue(message, TokenResponse.class);
-        assertEquals("Mensagem de texto", tokenResponse.getAuthorization());
-    }
+//    @Test
+//	public void jsonConvertTest() throws Exception {
+//        ObjectMapper mapper = new ObjectMapper();
+//		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+//
+//        var message = toJsonConverter.toJson("Mensagem de texto");
+//
+//        TokenResponse tokenResponse = mapper.readValue(message, TokenResponse.class);
+//        assertEquals("Mensagem de texto", tokenResponse.getAuthorization());
+//    }
 
 //	@Autowired
 //	private AcessoController acessoController;

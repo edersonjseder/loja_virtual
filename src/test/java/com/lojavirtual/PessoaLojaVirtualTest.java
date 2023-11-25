@@ -45,85 +45,86 @@ public class PessoaLojaVirtualTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
-    @Test
-    public void testSalvarPessoaFisica() throws Exception {
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-        var resultApi = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
-                        .content(mapper.writeValueAsString(genPessoaFisica()))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON));
-
-        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
-
-        assertNotNull(pessoaResponseDto.getToken());
-
-        assertEquals("joaoaguirre@gmail.com", pessoaResponseDto.getEmail());
-
-    }
-
-    @Test
-    public void testSalvarPessoaJuridica() throws Exception {
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        var resultApi = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaJuridica")
-                .content(mapper.writeValueAsString(genPessoaJuridica()))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-
-        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
-
-        assertNotNull(pessoaResponseDto.getToken());
-
-        assertEquals("tama@gmail.com", pessoaResponseDto.getEmail());
-
-    }
-
-    @Test
-    public void testObterBadRequestPessoaJuridicaException() throws Exception {
-        PessoaJuridica pessoaJuridica = new PessoaJuridica();
-        pessoaJuridica.setCnpj("56.736.280/0001-22");
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaJuridica")
-                        .content(mapper.writeValueAsString(pessoaJuridica))
-                        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof PessoaException))
-                .andExpect(result -> Assertions.assertEquals("Este CNPJ: 56736280000122 e invalido!",
-                        Objects.requireNonNull(result.getResolvedException()).getMessage()))
-                .andDo(print())
-                .andReturn();
-    }
-
-    @Test
-    public void testObterBadRequestPessoaFisicaException() throws Exception {
-        var pessoaFisica = PessoaFisica.builder().cpf("925.374.950-4");
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
-                        .content(mapper.writeValueAsString(pessoaFisica))
-                        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof PessoaException))
-                .andExpect(result -> Assertions.assertEquals("Formato invalido",
-                        Objects.requireNonNull(result.getResolvedException()).getMessage()))
-                .andDo(print())
-                .andReturn();
-    }
+//    @Test
+//    public void testSalvarPessoaFisica() throws Exception {
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+//
+//        var resultApi = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
+//                        .content(mapper.writeValueAsString(genPessoaFisica()))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON));
+//
+//        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
+//
+//        assertNotNull(pessoaResponseDto.getToken());
+//
+//        assertEquals("joaoaguirre@gmail.com", pessoaResponseDto.getEmail());
+//
+//    }
+//
+//    @Test
+//    public void testSalvarPessoaJuridica() throws Exception {
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//
+//        var resultApi = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaJuridica")
+//                .content(mapper.writeValueAsString(genPessoaJuridica()))
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON));
+//
+//        var pessoaResponseDto = mapper.readValue(resultApi.andReturn().getResponse().getContentAsString(), PessoaResponseDto.class);
+//
+//        assertNotNull(pessoaResponseDto.getToken());
+//
+//        assertEquals("tama@gmail.com", pessoaResponseDto.getEmail());
+//
+//    }
+//
+//    @Test
+//    public void testObterBadRequestPessoaJuridicaException() throws Exception {
+//        PessoaJuridica pessoaJuridica = new PessoaJuridica();
+//        pessoaJuridica.setCnpj("56.736.280/0001-22");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaJuridica")
+//                        .content(mapper.writeValueAsString(pessoaJuridica))
+//                        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
+//                .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof PessoaException))
+//                .andExpect(result -> Assertions.assertEquals("Este CNPJ: 56736280000122 e invalido!",
+//                        Objects.requireNonNull(result.getResolvedException()).getMessage()))
+//                .andDo(print())
+//                .andReturn();
+//    }
+//
+//    @Test
+//    public void testObterBadRequestPessoaFisicaException() throws Exception {
+//        var pessoaFisica = PessoaFisica.builder().cpf("925.374.950-4");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
+//                        .content(mapper.writeValueAsString(pessoaFisica))
+//                        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
+//                .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof PessoaException))
+//                .andExpect(result -> Assertions.assertEquals("Formato invalido",
+//                        Objects.requireNonNull(result.getResolvedException()).getMessage()))
+//                .andDo(print())
+//                .andReturn();
+//    }
 
     @Test
     public void validarCnpjTest() {

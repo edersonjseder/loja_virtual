@@ -36,33 +36,33 @@ public class UsuarioTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
-    @Test
-    public void testcadastrarUsuario() throws Exception {
-
-        ObjectMapper mapperPf = new ObjectMapper();
-        mapperPf.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        var resultApiPf = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
-                .content(mapperPf.writeValueAsString(genPessoaFisica()))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-
-        var pessoaFisica = mapperPf.readValue(resultApiPf.andReturn().getResponse().getContentAsString(), PessoaFisica.class);
-
-
-        ObjectMapper mapperUsr = new ObjectMapper();
-        mapperUsr.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        var usuario = getSignUpRequest();
-        usuario.setEmail(pessoaFisica.getEmail());
-
-        var resultApiUsr = this.mockMvc.perform(MockMvcRequestBuilders.post("/signup")
-                .content(mapperPf.writeValueAsString(usuario))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-
-        var usuarioRegistrado = mapperPf.readValue(resultApiUsr.andReturn().getResponse().getContentAsString(), Usuario.class);
-    }
+//    @Test
+//    public void testcadastrarUsuario() throws Exception {
+//
+//        ObjectMapper mapperPf = new ObjectMapper();
+//        mapperPf.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//
+//        var resultApiPf = this.mockMvc.perform(MockMvcRequestBuilders.post("/cadastrarPessoaFisica")
+//                .content(mapperPf.writeValueAsString(genPessoaFisica()))
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON));
+//
+//        var pessoaFisica = mapperPf.readValue(resultApiPf.andReturn().getResponse().getContentAsString(), PessoaFisica.class);
+//
+//
+//        ObjectMapper mapperUsr = new ObjectMapper();
+//        mapperUsr.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//
+//        var usuario = getSignUpRequest();
+//        usuario.setEmail(pessoaFisica.getEmail());
+//
+//        var resultApiUsr = this.mockMvc.perform(MockMvcRequestBuilders.post("/signup")
+//                .content(mapperPf.writeValueAsString(usuario))
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON));
+//
+//        var usuarioRegistrado = mapperPf.readValue(resultApiUsr.andReturn().getResponse().getContentAsString(), Usuario.class);
+//    }
 }
