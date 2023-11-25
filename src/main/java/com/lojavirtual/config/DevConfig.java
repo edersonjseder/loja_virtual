@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 @EntityScan(basePackages = "com.lojavirtual.model")
 @ComponentScan(basePackages = {"com.lojavirtual.*"})
 @EnableJpaRepositories(basePackages = {"com.lojavirtual.repository"})
-@Profile("dev")
 @PropertySource(value = "file:///${user.home}/lojavirtual/application-dev.properties", ignoreResourceNotFound = true)
 public class DevConfig {
     @Value("${spring.jpa.datasource.class-name}")

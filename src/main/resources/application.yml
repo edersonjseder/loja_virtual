@@ -38,6 +38,7 @@ spring:
     sql-migration-suffixes: .sql
     mixed: true
     fail-on-missing-locations: true
+    validate-on-migrate: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
