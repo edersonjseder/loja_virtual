@@ -40,6 +40,10 @@ spring:
     fail-on-missing-locations: true
     validate-on-migrate: false
   datasource:
+    url: "jdbc:postgresql://localhost:5432/lojavirtual?autoreconnect=true"
+    username: edersonjseder
+    password: Postgres1756
+    driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-timeout: 20000 # Numero maximo de milissegundos que um cliente aguardara por conexao
@@ -62,6 +66,8 @@ spring:
           use_jdbc_metadata_defaults: true
         jdbc:
           batch-size: 4
+          lob:
+            non-contextual-creation: true
         order_inserts: true
         order_updates: true
   transaction:
@@ -71,3 +77,14 @@ spring:
       cleanup-cron: 0 0 4 * * *
   mvc:
     static-path-pattern: /resources/static/** # Spring security habilita acesso a arquivos de imagens
+
+#Token
+token:
+  client:
+    client-id: lojaVirtualClient
+    client-secret: lojaVirtualSecret
+  signing:
+    key: Criandofrasesdeefeitoparaogerenciamentodalojavirtualafimdeterumecommercelucrativoecompetitivonomercadodetecnologia
+  # 10 Dias
+  expiration:
+    time: 864000000
