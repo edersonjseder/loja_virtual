@@ -11,8 +11,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: edersonjseder
           POSTGRES_PASSWORD: Postgres1756
+          POSTGRES_DB: lojavirtual
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
