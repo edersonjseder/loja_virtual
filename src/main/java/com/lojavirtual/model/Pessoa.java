@@ -48,9 +48,9 @@ public abstract class Pessoa implements Serializable {
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<NotaFiscalCompra> notaFiscalCompras;
 
-    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = PessoaJuridica.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
     @Override
     public boolean equals(Object o) {

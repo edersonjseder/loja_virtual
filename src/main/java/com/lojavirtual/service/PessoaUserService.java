@@ -154,7 +154,6 @@ public class PessoaUserService {
         var storedPessoaJuridica = pessoaRepository.save(pessoaUtils.toPessoaJuridica(pessoaJuridicaDTO));
 
         pessoaJuridicaDTO.getEnderecos().forEach(end -> {
-            end.setPessoa(storedPessoaJuridica);
             end.setEmpresa(storedPessoaJuridica.getEmpresa());
         });
 

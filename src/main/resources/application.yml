@@ -40,9 +40,9 @@ spring:
     fail-on-missing-locations: true
     validate-on-migrate: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/lojavirtual?autoreconnect=true
-    username: edersonjseder
-    password: Postgres1756
+    url: jdbc:postgresql://172.17.0.2:5432/lojavirtual?autoreconnect=true
+    username: postgres
+    password: Postgresecret
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:

@@ -39,14 +39,14 @@ public class Endereco implements Serializable {
     private TipoEndereco tipoEndereco;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-    private Pessoa pessoa;
+    private PessoaFisica pessoa;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Pessoa.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = PessoaJuridica.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
     @Override
     public boolean equals(Object o) {
